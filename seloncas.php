@@ -12,10 +12,10 @@ echo "
 
 switch($choix){
     case 1: 
-        echo "<mark>Vous avez choisi Thiebou Djeun";
+        echo "<mark>Vous avez choisi Thiebou Djeun</mark>";
         break;
     case 2: 
-        echo "<mark>Vous avez choisi Yassa";
+        echo "<mark>Vous avez choisi Yassa</mark>";
         break;
     default: 
         echo "Plat indisponible";
