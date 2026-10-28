@@ -1,6 +1,6 @@
 <?php 
 
-$n = 5;
+$n = 9;
 
 echo "La table de multiplication de $n est : <br>";
 for($i=1; $i<=10;$i++){
