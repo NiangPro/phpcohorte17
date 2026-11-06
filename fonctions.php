@@ -13,7 +13,7 @@ function somme($a, $b){
 }
 
 direBonjour();
-// die("Arret du programme a la ligne".__LINE__);
+// die("Arret du programme a la ligne".__LINE__); 
 direBonjourA("Moussa");
 direBonjourA("Aissatou", "Mme");
 direBonjourA("Penda", "Mme");
