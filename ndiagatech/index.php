@@ -1,4 +1,6 @@
 <?php
+
+require_once("database.php");
 $title = "accueil";
 require_once("entete.php") ;
 // require() ;
