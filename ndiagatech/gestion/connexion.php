@@ -27,7 +27,10 @@
                             </div>
                             <button type="submit" class="btn btn-dark w-100">Se connecter</button>
                         </form>
-                        <p class="text-center mt-3 mb-0"><a href="../index.php">Retour au site</a></p>
+                         <div class="d-flex justify-content-between">
+                            <p class="text-center mt-3 mb-0"><a href="../index.php">Retour au site</a></p>
+                        <p class="text-center mt-3 mb-0"><a href="inscription.php">Creer un compte</a></p>
+                        </div>
                     </div>
                 </div>
             </div>

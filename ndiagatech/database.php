@@ -1,10 +1,33 @@
 <?php 
 
+// try{
+
+//     echo 5/0;
+// }catch(DivisionByZeroError $e){
+//     echo "Impossible de diviser par 0 a la ligne ".__LINE__." dans le fichier:". __FILE__;
+// }
+
 try{
 
-    echo 5/0;
-}catch(DivisionByZeroError $e){
-    echo "Impossible de diviser par 0 a la ligne ".__LINE__." dans le fichier:". __FILE__;
+    $db = new PDO("mysql:host=localhost;dbname=ndiagatech", "root", "");
+}catch(PDOException $e){
+    echo "Erreur: ".$e->getMessage()." a la ligne ".__LINE__;
 }
 
-// $db = new PDO("mysql:host=localhost;dbname=ndgatech", "root", "");
+function ajouterUnUtilisateur($prenom, $nom, $email, $telephone, $quartier, $mdp, $role = "client"){
+    global $db;
+    try {
+       $q =  $db->prepare("INSERT INTO users VALUES(null, :p, :nom, :email, :telephone, :quartier, :mdp, :role, NOW())");
+       return $q->execute([
+        "p" => $prenom,
+        "nom" => $nom,
+        "email" => $email,
+        "telephone" => $telephone,
+        "quartier" => $quartier,
+        "mdp" => $mdp,
+        "role" => $role,
+       ]);
+    } catch(PDOException $e){
+        echo "Erreur: ".$e->getMessage()." a la ligne ".__LINE__;
+    }
+}

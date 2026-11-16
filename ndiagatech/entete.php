@@ -20,6 +20,9 @@
                     <li class="nav-item"><a class="nav-link  <?= isset($title) && $title=="catalogue" ? 'active' : '' ?>" href="catalogue.php">Catalogue</a></li>
                     <li class="nav-item"><a class="nav-link  <?= isset($title) && $title=="panier" ? 'active' : '' ?>" href="panier.php">Panier</a></li>
                     <li class="nav-item"><a class="nav-link <?= isset($title) && $title=="gestion" ? 'active' : '' ?>" href="gestion/connexion.php">Espace de gestion</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link <?= isset($title) && $title=="inscription" ? 'active' : '' ?>" href="gestion/inscription.php">Inscription</a>
+                    </li>
                 </ul>
             </div>
         </div>
