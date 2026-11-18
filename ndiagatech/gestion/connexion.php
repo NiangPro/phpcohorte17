@@ -1,3 +1,42 @@
+<?php 
+
+    session_start();
+    $erreurs  = "";
+    require_once("../database.php");
+    if(isset($_POST["connecter"])){
+        extract($_POST);
+
+        $user = seconnecter($email);
+
+        // $user = [
+        //     "id" => 1,
+        //     "prenom" => "fatou",
+        //     "email" => "admin@admin.com",
+        //     "mdp" => "rftyusioiuhsghjsklkjhgsgh",
+        //     "role" => "admin"
+        // ];
+
+
+        if($user){
+           if (password_verify($mdp, $user["mdp"])) {
+            if($user["role"] == "admin"){
+                 $_SESSION["user"]= $user;
+                return header("Location:tableau-de-bord.php");
+            }else{
+                $erreur = "Acces refuse";
+                return header("Location: ../index.php");
+            }
+           }else{
+                $erreur = "mot de passe incorrect";
+           }
+        }else{
+            $erreur= "Adresse e-mail ou mot de passe incorrect.";
+        }
+
+    }
+
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -15,17 +54,19 @@
                     <div class="card-body p-4">
                         <h1 class="h3 mb-1">Connexion</h1>
                         <p class="text-muted">Ndiaga Tech</p>
-                        <div class="alert alert-danger" role="alert">Adresse e-mail ou mot de passe incorrect.</div>
-                        <form action="tableau-de-bord.php" method="post">
+                        <?php if(!empty($erreur)): ?>
+                        <div class="alert alert-danger" role="alert"><?= $erreur ?></div>
+                        <?php endif; ?>
+                        <form action="" method="post">
                             <div class="mb-3">
                                 <label for="email" class="form-label">Adresse e-mail</label>
                                 <input type="email" class="form-control" id="email" name="email" required>
                             </div>
                             <div class="mb-3">
                                 <label for="mot_de_passe" class="form-label">Mot de passe</label>
-                                <input type="password" class="form-control" id="mot_de_passe" name="mot_de_passe" required>
+                                <input type="password" class="form-control" id="mdp" name="mdp" required>
                             </div>
-                            <button type="submit" class="btn btn-dark w-100">Se connecter</button>
+                            <button type="submit" name="connecter" class="btn btn-dark w-100">Se connecter</button>
                         </form>
                          <div class="d-flex justify-content-between">
                             <p class="text-center mt-3 mb-0"><a href="../index.php">Retour au site</a></p>

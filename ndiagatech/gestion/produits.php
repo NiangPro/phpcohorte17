@@ -1,30 +1,13 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Produits · Ndiaga Tech</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/style.css">
-</head>
-<body class="bg-light">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand fw-bold" href="tableau-de-bord.php">Ndiaga Tech · Gestion</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Ouvrir le menu">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="menu">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a class="nav-link" href="tableau-de-bord.php">Tableau de bord</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="produits.php" aria-current="page">Produits</a></li>
-                    <li class="nav-item"><a class="nav-link" href="commandes.php">Commandes</a></li>
-                </ul>
-                <span class="navbar-text text-white">M. Ndiaga Mbaye, gérant · <a class="text-white" href="connexion.php">Se déconnecter</a></span>
-            </div>
-        </div>
-    </nav>
-    <main class="container py-4">
+
+<?php 
+
+    session_start();
+
+    if (!isset($_SESSION["user"]) || $_SESSION["user"]["role"] !== "admin") {
+        return header("Location: ../index.php");
+    }
+    require_once("../entete.php");
+?>
         <div class="d-flex justify-content-between align-items-center mb-3"><h1 class="h2 mb-0">Produits</h1><a href="produit-form.php" class="btn btn-dark">Ajouter un produit</a></div>
         <form class="row g-2 align-items-end mb-3" role="search">
             <div class="col-12 col-md-6"><label for="recherche" class="form-label">Rechercher</label><input type="search" class="form-control" id="recherche" name="recherche"></div>
@@ -33,7 +16,8 @@
         </form>
         <div class="table-responsive">
             <table class="table table-striped table-hover align-middle bg-white">
-                <thead class="table-dark"><tr><th scope="col">Réf.</th><th scope="col">Produit</th><th scope="col">Catégorie</th><th scope="col" class="text-end">Prix (FCFA)</th><th scope="col" class="text-end">Stock</th><th scope="col">Alerte</th><th scope="col">Actions</th></tr></thead>
+                <thead class="table-dark">
+                    <tr><th scope="col">Réf.</th><th scope="col">Produit</th><th scope="col">Catégorie</th><th scope="col" class="text-end">Prix (FCFA)</th><th scope="col" class="text-end">Stock</th><th scope="col">Alerte</th><th scope="col">Actions</th></tr></thead>
                 <tbody>
                     <tr><td>N001</td><td>Smartphone Tecno Spark 20, 128 Go</td><td>Téléphones</td><td class="text-end">85 000</td><td class="text-end">17</td><td></td><td><a href="produit-form.php" class="btn btn-sm btn-outline-secondary">Modifier</a></td></tr>
                     <tr><td>N002</td><td>Smartphone Itel A70, 64 Go</td><td>Téléphones</td><td class="text-end">52 000</td><td class="text-end">2</td><td><span class="badge text-bg-warning">Stock faible</span></td><td><a href="produit-form.php" class="btn btn-sm btn-outline-secondary">Modifier</a></td></tr>

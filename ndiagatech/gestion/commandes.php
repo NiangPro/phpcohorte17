@@ -1,30 +1,13 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Commandes · Ndiaga Tech</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/style.css">
-</head>
-<body class="bg-light">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand fw-bold" href="tableau-de-bord.php">Ndiaga Tech · Gestion</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Ouvrir le menu">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="menu">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a class="nav-link" href="tableau-de-bord.php">Tableau de bord</a></li>
-                    <li class="nav-item"><a class="nav-link" href="produits.php">Produits</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="commandes.php" aria-current="page">Commandes</a></li>
-                </ul>
-                <span class="navbar-text text-white">M. Ndiaga Mbaye, gérant · <a class="text-white" href="connexion.php">Se déconnecter</a></span>
-            </div>
-        </div>
-    </nav>
-    <main class="container py-4">
+
+<?php 
+
+    session_start();
+
+    if (!isset($_SESSION["user"]) || $_SESSION["user"]["role"] !== "admin") {
+        return header("Location: ../index.php");
+    }
+    require_once("../entete.php");
+?>
         <h1 class="h2 mb-3">Commandes à traiter</h1>
         <p>5 commandes en attente, 2 confirmées à livrer. Le stock baisse à la confirmation.</p>
         <div class="table-responsive">
