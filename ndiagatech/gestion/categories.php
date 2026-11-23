@@ -9,6 +9,12 @@
         return header("Location: ../index.php");
     }
 
+    if(isset($_GET["id"])){
+        if(supprimerUneCategorie($_GET["id"])){
+            return header("Location: categories.php");
+        }
+    }
+
     $categories = recupererToutesLesCategories();
 
 
@@ -42,7 +48,26 @@
                         <td><?= ucfirst($c["nom"]) ?></td>
                         <td>
                             <a href="" class="btn btn-info btn-sm"><i class="fa fa-edit"></i></a>
-                            <a href="" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+                            <a href="" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal<?= $c['id'] ?>"><i class="fa fa-trash"></i></a>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal<?= $c['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Suppression</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Êtes-vous sûr de vouloir supprimer ?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Non</button>
+                                    <a href="?id=<?= $c['id'] ?>" type="button" class="btn btn-success">Oui</a>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
                         </td>
                     </tr>
                     <?php endforeach; ?>

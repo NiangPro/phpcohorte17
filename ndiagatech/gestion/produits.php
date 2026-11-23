@@ -3,9 +3,13 @@
 
     session_start();
 
+    require_once("../database.php");
+
     if (!isset($_SESSION["user"]) || $_SESSION["user"]["role"] !== "admin") {
         return header("Location: ../index.php");
     }
+
+    $produits = recupererTousLesProduits();
     require_once("../entete.php");
 ?>
         <div class="d-flex justify-content-between align-items-center mb-3"><h1 class="h2 mb-0">Produits</h1><a href="produit-form.php" class="btn btn-dark">Ajouter un produit</a></div>
@@ -17,24 +21,35 @@
         <div class="table-responsive">
             <table class="table table-striped table-hover align-middle bg-white">
                 <thead class="table-dark">
-                    <tr><th scope="col">Réf.</th><th scope="col">Produit</th><th scope="col">Catégorie</th><th scope="col" class="text-end">Prix (FCFA)</th><th scope="col" class="text-end">Stock</th><th scope="col">Alerte</th><th scope="col">Actions</th></tr></thead>
+                    <tr>
+                        <th scope="col">Image</th>
+                        <th scope="col">Réf.</th>
+                        <th scope="col">Produit</th>
+                        <th scope="col">Catégorie</th>
+                        <th scope="col" class="text-end">Prix (FCFA)</th>
+                        <th scope="col" class="text-end">Stock</th>
+                        <th scope="col">Alerte</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
                 <tbody>
-                    <tr><td>N001</td><td>Smartphone Tecno Spark 20, 128 Go</td><td>Téléphones</td><td class="text-end">85 000</td><td class="text-end">17</td><td></td><td><a href="produit-form.php" class="btn btn-sm btn-outline-secondary">Modifier</a></td></tr>
-                    <tr><td>N002</td><td>Smartphone Itel A70, 64 Go</td><td>Téléphones</td><td class="text-end">52 000</td><td class="text-end">2</td><td><span class="badge text-bg-warning">Stock faible</span></td><td><a href="produit-form.php" class="btn btn-sm btn-outline-secondary">Modifier</a></td></tr>
-                    <tr><td>N003</td><td>Smartphone Infinix Hot 40i, 128 Go</td><td>Téléphones</td><td class="text-end">92 000</td><td class="text-end">21</td><td></td><td><a href="produit-form.php" class="btn btn-sm btn-outline-secondary">Modifier</a></td></tr>
-                    <tr><td>N004</td><td>Smartphone Samsung Galaxy A15, 128 Go</td><td>Téléphones</td><td class="text-end">115 000</td><td class="text-end">0</td><td><span class="badge text-bg-danger">Rupture</span></td><td><a href="produit-form.php" class="btn btn-sm btn-outline-secondary">Modifier</a></td></tr>
-                    <tr><td>N005</td><td>Smartphone Redmi 13C, 128 Go</td><td>Téléphones</td><td class="text-end">95 000</td><td class="text-end">19</td><td></td><td><a href="produit-form.php" class="btn btn-sm btn-outline-secondary">Modifier</a></td></tr>
-                    <tr><td>N006</td><td>Smartphone Samsung Galaxy A25, 128 Go</td><td>Téléphones</td><td class="text-end">168 000</td><td class="text-end">13</td><td></td><td><a href="produit-form.php" class="btn btn-sm btn-outline-secondary">Modifier</a></td></tr>
-                    <tr><td>N007</td><td>iPhone 13, 128 Go (reconditionné)</td><td>Téléphones</td><td class="text-end">330 000</td><td class="text-end">3</td><td></td><td><a href="produit-form.php" class="btn btn-sm btn-outline-secondary">Modifier</a></td></tr>
-                    <tr><td>N008</td><td>Téléphone à touches Itel it2163</td><td>Téléphones</td><td class="text-end">9 500</td><td class="text-end">6</td><td></td><td><a href="produit-form.php" class="btn btn-sm btn-outline-secondary">Modifier</a></td></tr>
-                    <tr><td>N009</td><td>Smartphone Tecno Camon 30, 256 Go</td><td>Téléphones</td><td class="text-end">175 000</td><td class="text-end">19</td><td></td><td><a href="produit-form.php" class="btn btn-sm btn-outline-secondary">Modifier</a></td></tr>
-                    <tr><td>N010</td><td>Smartphone Infinix Note 40, 256 Go</td><td>Téléphones</td><td class="text-end">158 000</td><td class="text-end">27</td><td></td><td><a href="produit-form.php" class="btn btn-sm btn-outline-secondary">Modifier</a></td></tr>
-                    <tr><td>N011</td><td>Écouteurs filaires jack 3,5 mm</td><td>Écouteurs et audio</td><td class="text-end">2 500</td><td class="text-end">30</td><td></td><td><a href="produit-form.php" class="btn btn-sm btn-outline-secondary">Modifier</a></td></tr>
-                    <tr><td>N012</td><td>Écouteurs sans fil Bluetooth</td><td>Écouteurs et audio</td><td class="text-end">10 000</td><td class="text-end">16</td><td></td><td><a href="produit-form.php" class="btn btn-sm btn-outline-secondary">Modifier</a></td></tr>
-                    <tr><td>N013</td><td>Casque Bluetooth pliable</td><td>Écouteurs et audio</td><td class="text-end">15 000</td><td class="text-end">15</td><td></td><td><a href="produit-form.php" class="btn btn-sm btn-outline-secondary">Modifier</a></td></tr>
-                    <tr><td>N014</td><td>Enceinte Bluetooth portable</td><td>Écouteurs et audio</td><td class="text-end">18 000</td><td class="text-end">28</td><td></td><td><a href="produit-form.php" class="btn btn-sm btn-outline-secondary">Modifier</a></td></tr>
-                    <tr><td>N015</td><td>Écouteurs sans fil à réduction de bruit</td><td>Écouteurs et audio</td><td class="text-end">27 000</td><td class="text-end">3</td><td><span class="badge text-bg-warning">Stock faible</span></td><td><a href="produit-form.php" class="btn btn-sm btn-outline-secondary">Modifier</a></td></tr>
-                    <tr><td>N016</td><td>Kit mains libres voiture</td><td>Écouteurs et audio</td><td class="text-end">7 000</td><td class="text-end">8</td><td></td><td><a href="produit-form.php" class="btn btn-sm btn-outline-secondary">Modifier</a></td></tr>
+                    <?php foreach($produits as $p): ?>
+                    <tr>
+                        <td>
+                            <img src="../images/<?= $p['image'] ?>" width="100" height="50" alt="">
+                        </td>
+                        <td><?= $p["reference"] ?></td>
+                        <td><?= $p["nom"] ?></td>
+                        <td><?= $p["nomcategorie"] ?></td>
+                        <td class="text-end"><?= number_format($p["prix_achat"], 0, ",", " ") ?></td>
+                        <td class="text-end"><?= $p["stock"] ?></td>
+                        <td><?= $p["seuil"] ?></td>
+                        <td>
+                            <a href="produit-form.php" class="btn btn-sm btn-outline-secondary"><i class="fa fa-edit"></i></a>
+                            <a href="produit-form.php" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash"></i></a>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
