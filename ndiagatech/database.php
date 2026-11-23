@@ -14,6 +14,41 @@ try{
     echo "Erreur: ".$e->getMessage()." a la ligne ".__LINE__;
 }
 
+function modifierUnProduit($id,$reference, $nom, $prix_achat, $prix_vente, $stock, $seuil, $description, $image, $idcategorie){
+    global $db;
+    try{
+        $q = $db->prepare("UPDATE produits SET reference=:reference, nom=:nom, prix_achat=:pa, prix_vente=:pv, stock=:stock, seuil=:seuil, description=:description, image=:image, idcagtegorie=:idcategorie
+        WHERE id=:id");
+        return $q->execute([
+            "ref" => $reference,
+            "nom" => $nom,
+            "pa" => $prix_achat,
+            "pv" => $prix_vente,
+            "stock" => $stock,
+            "seuil" => $seuil,
+            "description" => $description,
+            "image" => $image,
+            "idcategorie" => intval($idcategorie),
+            "id" => intval($id)
+        ]);
+    }catch(PDOException $e){
+        echo "Erreur: ".$e->getMessage()." a la ligne ".__LINE__;
+    }
+}
+
+function recupererUnProduit($id){
+    global $db;
+    try {
+        $q = $db->prepare("SELECT * FROM produits WHERE id =:id");
+        $q->execute(["id" => $id]);
+
+        // return $q->fetch(PDO::FETCH_OBJ);
+        return $q->fetch();
+    } catch(PDOException $e){
+        echo "Erreur: ".$e->getMessage()." a la ligne ".__LINE__;
+    }
+}
+
 function recupererTousLesProduits(){
     global $db;
     try {

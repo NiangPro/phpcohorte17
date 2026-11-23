@@ -45,7 +45,7 @@
                         <td class="text-end"><?= $p["stock"] ?></td>
                         <td><?= $p["seuil"] ?></td>
                         <td>
-                            <a href="produit-form.php" class="btn btn-sm btn-outline-secondary"><i class="fa fa-edit"></i></a>
+                            <a href="edit-produit.php?id=<?= $p['id'] ?>" class="btn btn-sm btn-outline-secondary"><i class="fa fa-edit"></i></a>
                             <a href="produit-form.php" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash"></i></a>
                         </td>
                     </tr>
