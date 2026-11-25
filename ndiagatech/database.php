@@ -20,8 +20,7 @@ function modifierUnProduit($id,$reference, $nom, $prix_achat, $prix_vente, $stoc
         $q = $db->prepare("UPDATE produits SET reference=:reference, nom=:nom, prix_achat=:pa, prix_vente=:pv, stock=:stock, seuil=:seuil, description=:description, image=:image, idcategorie=:idcategorie
         WHERE id=:id");
         return $q->execute([
-            "id" => intval($id),
-            "ref" => $reference,
+            "reference" => $reference,
             "nom" => $nom,
             "pa" => $prix_achat,
             "pv" => $prix_vente,
@@ -29,7 +28,8 @@ function modifierUnProduit($id,$reference, $nom, $prix_achat, $prix_vente, $stoc
             "seuil" => $seuil,
             "description" => $description,
             "image" => $image,
-            "idcategorie" => intval($idcategorie)
+            "idcategorie" => $idcategorie,
+            "id" => $id
         ]);
     }catch(PDOException $e){
         echo "Erreur: ".$e->getMessage()." a la ligne ".__LINE__;
