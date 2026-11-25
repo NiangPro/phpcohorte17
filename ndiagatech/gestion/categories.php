@@ -20,7 +20,9 @@
 
     require_once("../entete.php");
 ?>
-        <div class="d-flex justify-content-between align-items-center mb-3"><h1 class="h2 mb-0">Categories</h1><a href="ajoutcategorie.php" class="btn btn-dark">Ajouter une categorie</a></div>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1 class="h2 mb-0">Categories ( <?= count($categories) ?>)</h1>
+            <a href="ajoutcategorie.php" class="btn btn-dark">Ajouter une categorie</a></div>
         <form class="row g-2 align-items-end mb-3" role="search">
             <div class="col-12 col-md-6">
                 <label for="recherche" class="form-label">Rechercher</label>
@@ -47,7 +49,7 @@
                     <tr>
                         <td><?= ucfirst($c["nom"]) ?></td>
                         <td>
-                            <a href="" class="btn btn-info btn-sm"><i class="fa fa-edit"></i></a>
+                            <a href="edit-categorie.php?id=<?= $c['id'] ?>" class="btn btn-info btn-sm"><i class="fa fa-edit"></i></a>
                             <a href="" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal<?= $c['id'] ?>"><i class="fa fa-trash"></i></a>
 
                             <!-- Modal -->

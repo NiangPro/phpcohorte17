@@ -9,13 +9,27 @@
         return header("Location: ../index.php");
     }
 
+
+    if(isset($_GET["id"])){
+        supprimerUnProduit($_GET["id"]);
+        return header("Location:produits.php");
+    }
+
+    $categories = recupererToutesLesCategories();
     $produits = recupererTousLesProduits();
     require_once("../entete.php");
 ?>
         <div class="d-flex justify-content-between align-items-center mb-3"><h1 class="h2 mb-0">Produits</h1><a href="produit-form.php" class="btn btn-dark">Ajouter un produit</a></div>
         <form class="row g-2 align-items-end mb-3" role="search">
             <div class="col-12 col-md-6"><label for="recherche" class="form-label">Rechercher</label><input type="search" class="form-control" id="recherche" name="recherche"></div>
-                    <div class="col-12 col-md-4"><label for="categorie" class="form-label">Catégorie</label><select class="form-select" id="categorie" name="categorie"><option>Toutes les catégories</option><option>Téléphones</option><option>Écouteurs et audio</option><option>Chargeurs et câbles</option><option>Protection</option><option>Montres connectées</option><option>Accessoires divers</option></select></div>
+                    <div class="col-12 col-md-4">
+                        <label for="categorie" class="form-label">Catégorie</label>
+                        <select class="form-select" id="categorie" name="categorie">
+                            <option>Toutes les catégories</option>
+                            <?php foreach($categories as $c): ?>
+                            <option value="<?= $c['id'] ?>"><?= ucfirst($c["nom"]) ?></option>
+                            <?php endforeach; ?>
+                        </select></div>
             <div class="col-12 col-md-2"><button type="submit" class="btn btn-outline-dark w-100">Filtrer</button></div>
         </form>
         <div class="table-responsive">
@@ -46,7 +60,25 @@
                         <td><?= $p["seuil"] ?></td>
                         <td>
                             <a href="edit-produit.php?id=<?= $p['id'] ?>" class="btn btn-sm btn-outline-secondary"><i class="fa fa-edit"></i></a>
-                            <a href="produit-form.php" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash"></i></a>
+                            <a href="" class="btn btn-sm btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#exampleModal<?= $p['id'] ?>"><i class="fa fa-trash"></i></a>
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal<?= $p['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Suppression</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Êtes-vous sûr de vouloir supprimer?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Non</button>
+                                    <a href="?id=<?= $p['id'] ?>"  class="btn btn-success">Oui</a>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
                         </td>
                     </tr>
                     <?php endforeach; ?>
