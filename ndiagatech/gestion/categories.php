@@ -9,13 +9,23 @@
         return header("Location: ../index.php");
     }
 
+
     if(isset($_GET["id"])){
         if(supprimerUneCategorie($_GET["id"])){
             return header("Location: categories.php");
         }
     }
 
-    $categories = recupererToutesLesCategories();
+    if (isset($_POST["rechercher"])) {
+        extract($_POST);
+        $old_name = $nom;
+        $categories = rechercherDesCategories($nom);
+        
+    }else{
+
+        $categories = recupererToutesLesCategories();
+    }
+
 
 
     require_once("../entete.php");
@@ -23,20 +33,19 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h1 class="h2 mb-0">Categories ( <?= count($categories) ?>)</h1>
             <a href="ajoutcategorie.php" class="btn btn-dark">Ajouter une categorie</a></div>
-        <form class="row g-2 align-items-end mb-3" role="search">
-            <div class="col-12 col-md-6">
+        <form class="row g-2 align-items-end mb-3" method="post" action="" role="search">
+            <div class="col-12 col-md-8">
                 <label for="recherche" class="form-label">Rechercher</label>
-                <input type="search" class="form-control" id="recherche" name="recherche">
+                <input type="search" class="form-control" value="<?= isset($old_name)?$old_name: '' ?>" id="recherche" required name="nom">
             </div>
+            
             <div class="col-12 col-md-4">
-                <label for="categorie" class="form-label">Catégorie</label><select class="form-select" id="categorie" name="categorie">
-                    <option>Toutes les catégories</option>
-                    <option>Téléphones</option>
-                </select>
+                <button type="submit" name="rechercher" class="btn btn-outline-dark">Filtrer</button>
+                <a href="" class="btn btn-warning">Reinitialiser</a>
             </div>
-            <div class="col-12 col-md-2"><button type="submit" class="btn btn-outline-dark w-100">Filtrer</button></div>
         </form>
         <div class="table-responsive">
+            <?php if(!empty($categories)): ?>
             <table class="table table-striped table-hover align-middle bg-white">
                 <thead class="table-dark">
                     <tr>
@@ -75,5 +84,21 @@
                     <?php endforeach; ?>
                 </tbody>
             </table>
+            <?php else: ?>
+                <div
+                    class="alert alert-primary alert-dismissible fade show"
+                    role="alert"
+                >
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"
+                        aria-label="Close"
+                    ></button>
+                
+                    Aucune categorie disponible pour le moment.
+                </div>
+            <?php endif; ?>
+                
         </div>
     <?php require_once("../pied.php"); ?>

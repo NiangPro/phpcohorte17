@@ -15,22 +15,41 @@
         return header("Location:produits.php");
     }
 
+    if (isset($_POST["rechercher"])) {
+        extract($_POST);
+       
+        if (!empty($nom)) {
+            $produits = rechercherDesProduits($nom);
+            $old_name = $nom;
+        }else if(!empty($idcategorie)){
+            $produits = filtrerParCategorie($idcategorie);
+            $old_idcategorie = $idcategorie;
+        }
+    }else{
+
+        $produits = recupererTousLesProduits();
+    }
+
     $categories = recupererToutesLesCategories();
-    $produits = recupererTousLesProduits();
     require_once("../entete.php");
 ?>
         <div class="d-flex justify-content-between align-items-center mb-3"><h1 class="h2 mb-0">Produits</h1><a href="produit-form.php" class="btn btn-dark">Ajouter un produit</a></div>
-        <form class="row g-2 align-items-end mb-3" role="search">
-            <div class="col-12 col-md-6"><label for="recherche" class="form-label">Rechercher</label><input type="search" class="form-control" id="recherche" name="recherche"></div>
+        <form class="row g-2 align-items-end mb-3" method="post" action="" role="search">
+            <div class="col-12 col-md-6">
+                <label for="recherche" class="form-label">Rechercher</label>
+                <input type="search" value="<?= isset($old_name)?$old_name:'' ?>" class="form-control" id="recherche" name="nom"></div>
                     <div class="col-12 col-md-4">
                         <label for="categorie" class="form-label">Catégorie</label>
-                        <select class="form-select" id="categorie" name="categorie">
+                        <select class="form-select" id="idcategorie" name="idcategorie">
                             <option>Toutes les catégories</option>
                             <?php foreach($categories as $c): ?>
-                            <option value="<?= $c['id'] ?>"><?= ucfirst($c["nom"]) ?></option>
+                            <option value="<?= $c['id'] ?>" <?=  isset($old_idcategorie) && !empty($old_idcategorie) && $c['id'] == $old_idcategorie ? "selected" : "" ?>  ><?= ucfirst($c["nom"]) ?></option>
                             <?php endforeach; ?>
                         </select></div>
-            <div class="col-12 col-md-2"><button type="submit" class="btn btn-outline-dark w-100">Filtrer</button></div>
+            <div class="col-12 col-md-2">
+                <button type="submit" name="rechercher" class="btn btn-outline-dark">Filtrer</button>
+                <a href="" class="btn btn-warning">Reinitialiser</a>
+            </div>
         </form>
         <div class="table-responsive">
             <table class="table table-striped table-hover align-middle bg-white">

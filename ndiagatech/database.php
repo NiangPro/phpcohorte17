@@ -14,6 +14,51 @@ try{
     echo "Erreur: ".$e->getMessage()." a la ligne ".__LINE__;
 }
 
+function filtrerParCategorie($idcategorie){
+    global $db;
+    try{
+            $q = $db->prepare("SELECT p.id as id, p.nom as nom, image, seuil, description, 
+                            reference, stock, prix_vente, prix_achat, c.nom as nomcategorie 
+                        FROM produits p, categories c
+                        WHERE p.idcategorie = c.id AND idcategorie =:idcategorie
+                        ORDER BY p.id DESC");
+            $q->execute(["idcategorie" => $idcategorie]);
+
+            return $q->fetchAll();
+    }catch(PDOException $e){
+        echo "Erreur: ".$e->getMessage()." a la ligne ".__LINE__;
+    }
+}
+
+function rechercherDesProduits($nom){
+    global $db;
+    try{
+        $q = $db->prepare("SELECT  p.id as id, p.nom as nom, image, seuil, description, 
+                            reference, stock, prix_vente, prix_achat, c.nom as nomcategorie 
+                            FROM produits p, categories c
+                            WHERE p.idcategorie = c.id AND p.nom LIKE :nom");
+        $q->execute(["nom" => "%".$nom."%"]);
+
+        return $q->fetchAll();
+    }catch(PDOException $e){
+        echo "Erreur: ".$e->getMessage()." a la ligne ".__LINE__;
+    }
+}
+
+function rechercherDesCategories($nom){
+    global $db;
+    try {
+        $q = $db->prepare("SELECT * FROM categories WHERE nom LIKE :nom");
+        $q->execute([
+            "nom" => "%".$nom."%"
+            ]);
+
+        return $q->fetchAll();
+    }catch(PDOException $e){
+        echo "Erreur: ".$e->getMessage()." a la ligne ".__LINE__;
+    }
+}
+
 function modifierUneCategorie($id, $nom){
     global $db;
     try {
@@ -52,7 +97,9 @@ function supprimerUnProduit($id){
 function modifierUnProduit($id,$reference, $nom, $prix_achat, $prix_vente, $stock, $seuil, $description, $image, $idcategorie){
     global $db;
     try{
-        $q = $db->prepare("UPDATE produits SET reference=:reference, nom=:nom, prix_achat=:pa, prix_vente=:pv, stock=:stock, seuil=:seuil, description=:description, image=:image, idcategorie=:idcategorie
+        $q = $db->prepare("UPDATE produits SET 
+        reference=:reference, nom=:nom, 
+        prix_achat=:pa, prix_vente=:pv, stock=:stock, seuil=:seuil, description=:description, image=:image, idcategorie=:idcategorie
         WHERE id=:id");
         return $q->execute([
             "reference" => $reference,

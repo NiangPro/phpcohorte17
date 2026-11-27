@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>`
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= isset($title) ? ucfirst($title): "Accueil" ?>  · Ndiaga Tech</title>
@@ -45,13 +45,39 @@
                         </div>
                     </li>
                     <?php else: ?>
-                    <li class="nav-item"><a class="nav-link <?= isset($title) && $title=="accueil" ? 'active' : '' ?>" href="index.php" aria-current="page">Accueil</a></li>
-                    <li class="nav-item"><a class="nav-link  <?= isset($title) && $title=="catalogue" ? 'active' : '' ?>" href="catalogue.php">Catalogue</a></li>
-                    <li class="nav-item"><a class="nav-link  <?= isset($title) && $title=="panier" ? 'active' : '' ?>" href="panier.php">Panier</a></li>
-                    <li class="nav-item"><a class="nav-link <?= isset($title) && $title=="gestion" ? 'active' : '' ?>" href="gestion/connexion.php">Espace de gestion</a></li>
-                    <li class="nav-item">
-                        <a class="nav-link <?= isset($title) && $title=="inscription" ? 'active' : '' ?>" href="gestion/inscription.php">Inscription</a>
-                    </li>
+                        <li class="nav-item"><a class="nav-link <?= isset($title) && $title=="accueil" ? 'active' : '' ?>" href="index.php" aria-current="page">Accueil</a></li>
+                        <li class="nav-item"><a class="nav-link  <?= isset($title) && $title=="catalogue" ? 'active' : '' ?>" href="catalogue.php">Catalogue</a></li>
+                        <li class="nav-item"><a class="nav-link  <?= isset($title) && $title=="panier" ? 'active' : '' ?>" href="panier.php">Panier</a></li>
+                        <?php if(isset($_SESSION["user"])): ?>
+                            <li class="nav-item dropdown">
+                                <a
+                                    class="nav-link dropdown-toggle"
+                                    href="#"
+                                    id="dropdownId"
+                                    data-bs-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false"
+                                    ><?= ucfirst($_SESSION["user"]["prenom"]) ?></a
+                                >
+                                <div
+                                    class="dropdown-menu"
+                                    aria-labelledby="dropdownId"
+                                >
+                                    <a class="dropdown-item" href="#"
+                                        >Profil</a
+                                    >
+                                    <a class="dropdown-item" href="gestion/deconnexion.php"
+                                        >Deconnexion</a
+                                    >
+                                </div>
+                            </li>
+    
+                        <?php else: ?>
+                        <li class="nav-item"><a class="nav-link <?= isset($title) && $title=="gestion" ? 'active' : '' ?>" href="gestion/connexion.php">Connexion</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link <?= isset($title) && $title=="inscription" ? 'active' : '' ?>" href="gestion/inscription.php">Inscription</a>
+                        </li>
+                        <?php endif; ?>
                     <?php endif; ?> 
                 </ul>
             </div>

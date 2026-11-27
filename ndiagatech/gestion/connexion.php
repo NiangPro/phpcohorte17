@@ -19,11 +19,10 @@
 
         if($user){
            if (password_verify($mdp, $user["mdp"])) {
+            $_SESSION["user"]= $user;
             if($user["role"] == "admin"){
-                 $_SESSION["user"]= $user;
                 return header("Location:tableau-de-bord.php");
             }else{
-                $erreur = "Acces refuse";
                 return header("Location: ../index.php");
             }
            }else{
